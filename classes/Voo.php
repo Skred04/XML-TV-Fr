@@ -19,7 +19,7 @@ class Voo implements Provider
     }
     public static function getPriority()
     {
-        return 0.85;
+        return 0.01;
     }
 
     function constructEPG($channel, $date)

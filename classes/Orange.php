@@ -14,7 +14,7 @@ class Orange implements Provider
 
     public static function getPriority()
     {
-        return 0.6;
+        return 0.8;
     }
     public function __construct($XML_PATH)
     {

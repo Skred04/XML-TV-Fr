@@ -20,7 +20,7 @@ class PlayTV implements Provider
 
     public static function getPriority()
     {
-        return 0.9;
+        return 0.7;
     }
     public function constructEPG($channel,$date)
     {

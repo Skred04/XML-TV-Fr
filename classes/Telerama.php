@@ -17,7 +17,7 @@ class Telerama implements Provider
 
     public static function getPriority()
     {
-        return 0.95;
+        return 0.09;
     }
     public function __construct($XML_PATH)
     {
