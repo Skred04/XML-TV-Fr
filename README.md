@@ -16,7 +16,7 @@ PHP >=5.4 avec les extensions
 
 Cette partie va vous permettre de configurer XML TV Fr.
 
-## Liste des chaines (channels.json)
+## Liste des chaines dans [channels.json](channels.json)
 
 La liste des chaines doit être indiquée dans le fichier channels.json au format JSON. Chaque chaine correspond à l'ID d'une chaine (Exemple : France2.fr) présente dans les fichiers de chaines par services (dossier channels_by_providers).
 La structure d'un item se fait comme ceci :
@@ -25,7 +25,7 @@ La structure d'un item se fait comme ceci :
 Les champs name, icon et priority sont optionnels. 
 Le champ priority donne un ordre de priorité différent de celui par défaut en indiquant les noms des services (nom des classes dans le dossier classes). Dans l'exemple, Service1 sera appelé en premier et Service2 ne sera appelé que si Service1 échoue. Par exemple si on met en priorité Télérama puis Orange, Télérama sera lancé. Si aucun programme n'est trouvé sur Télérama, Orange est lancé, sinon on continue. Si aucun programme n'est trouvé sur tous les services, la chaine est indiquée HS pour le jour concerné.
 
-## Configuration du programme (config.json)
+## Configuration du programme [config.json](config.json)
 
 Le fichier config.json est au format JSON. Le champ days correspond au nombre de jours suivant la date du jour que l'on souhaite obtenir.
 
