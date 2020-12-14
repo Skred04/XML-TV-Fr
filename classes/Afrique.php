@@ -22,11 +22,11 @@ class Afrique implements Provider
         }
     }
 
-    function constructEPG($channel, $date)
+    public function constructEPG($channel, $date)
     {
         if(!in_array($channel,self::$CHANNELS_KEY))
             return false;
-        $day = strtotime(date('Y-m-d') - strtotime($date))/86400;
+        $day = ( strtotime($date) - strtotime(date('Y-m-d')) ) / 86400;
         if (!file_exists(self::$TMP_PATH . $channel."_".$date.'.json')) {
             $ch3 = curl_init();
             curl_setopt($ch3, CURLOPT_URL, 'https://service.canal-overseas.com/ott-frontend/vector/83001/channel/' . self::$CHANNELS_LIST[$channel] . '/events?filter.day=' . $day);
