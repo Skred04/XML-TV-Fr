@@ -49,9 +49,11 @@ class Orange implements Provider
             $res1 = curl_exec($ch1);
             curl_close($ch1);
             $json = json_decode($res1,true);
-            if(!preg_match('(Invalid request)',$res1) && !preg_match('(504 Gateway Time-out)',$res1) && isset($json))
+            if(!preg_match('(Invalid request)',$res1) && !preg_match('(504 Gateway Time-out)',$res1) && isset($json) && !empty($json))
             {
                 file_put_contents(self::$TMP_PATH.'Orange'.base64_encode($channel).$date.'.json',$res1);
+            } else {
+                return false;
             }
         } else { $res1 = file_get_contents(self::$TMP_PATH.'Orange'.base64_encode($channel).$date.'.json');
             $json = json_decode($res1,true);}

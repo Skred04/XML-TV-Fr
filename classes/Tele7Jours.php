@@ -50,7 +50,7 @@ class Tele7Jours implements Provider
                 $get = str_replace(');', '', $get);
                 $get2 = $get;
                 $get = json_decode($get, true);
-                if (!isset($get))
+                if (!isset($get["grille"]["aDiffusion"]))
                     return false;
                 file_put_contents(self::$TMP_PATH . $channel . '_' . $date . "_t" . $i . ".json", $get2);
 
