@@ -7,6 +7,7 @@ class PlayTV implements Provider
     private static $TMP_PATH = "epg/playtv/";
     private static $CHANNELS_LIST;
     private static $CHANNELS_KEY;
+    private static $seen_ids = [];
 
     public function __construct($XML_PATH)
     {
@@ -56,44 +57,53 @@ class PlayTV implements Provider
         if(file_exists( $xml_save))
             unlink( $xml_save);
         foreach ($res1 as $val) {
-                $ns = '';
-                $season = '';
-                $de = '';
-                if (isset($val["program"]["episode"])) {
-                    if ($val["program"]["season"] == "") {
-                        $val["program"]["season"] = '1';
-                    }
-                    $de = ' : ';
-                    $season = 'Saison ' . $val["program"]["season"] . ' Episode ' . $val["program"]["episode"];
-                    $ns = chr(10) . '	<episode-num system="xmltv_ns">' . ($val["program"]["season"] - 1) . '.' . ($val["program"]["episode"] - 1) . '.</episode-num>';
+            // avoid duplicates
+            if ($val['id']) {
+                if (in_array($val['id'], self::$seen_ids)) {
+                    continue;
+                } else {
+                    array_push(self::$seen_ids, $val['id']);
                 }
-                $csa = 'TP';
-                if ($val["program"]["csa_id"] == "2") {
-                    $csa = '-10';
+            }
+
+            $ns = '';
+            $season = '';
+            $de = '';
+            if (isset($val["program"]["episode"])) {
+                if ($val["program"]["season"] == "") {
+                    $val["program"]["season"] = '1';
                 }
-                if ($val["program"]["csa_id"] == "3") {
-                    $csa = '-12';
+                $de = ' : ';
+                $season = 'Saison ' . $val["program"]["season"] . ' Episode ' . $val["program"]["episode"];
+                $ns = chr(10) . '	<episode-num system="xmltv_ns">' . ($val["program"]["season"] - 1) . '.' . ($val["program"]["episode"] - 1) . '.</episode-num>';
+            }
+            $csa = 'TP';
+            if ($val["program"]["csa_id"] == "2") {
+                $csa = '-10';
+            }
+            if ($val["program"]["csa_id"] == "3") {
+                $csa = '-12';
+            }
+            if ($val["program"]["csa_id"] == "4") {
+                $csa = '-16';
+            }
+            if ($val["program"]["csa_id"] == "5") {
+                $csa = '-18';
                 }
-                if ($val["program"]["csa_id"] == "4") {
-                    $csa = '-16';
-                }
-                if ($val["program"]["csa_id"] == "5") {
-                    $csa = '-18';
-                }
-                $subtitle = '';
-                if ($val["program"]["subtitle"]) {
-                    $season = $season . $de . $val["program"]["subtitle"];
-                    $subtitle = chr(10) . '	<sub-title lang="fr">' . htmlspecialchars($val["program"]["subtitle"], ENT_XML1) . '</sub-title>';
-                }
-                $subcat = '';
-                if (strlen($season) > 2) {
-                    $season = $season . chr(10);
-                }
-                if ($val["program"]["subgender"]) {
-                    $subcat = chr(10) . '	<category lang="fr">' . htmlspecialchars($val["program"]["subgender"], ENT_XML1) . '</category>';
-                }
-                $fp = fopen($xml_save, "a");
-                fputs($fp, '<programme start="' . date('YmdHis O', $val["start"]) . '" stop="' . date('YmdHis O', $val["end"]) . '" channel="' . $channel . '">
+            $subtitle = '';
+            if ($val["program"]["subtitle"]) {
+                $season = $season . $de . $val["program"]["subtitle"];
+                $subtitle = chr(10) . '	<sub-title lang="fr">' . htmlspecialchars($val["program"]["subtitle"], ENT_XML1) . '</sub-title>';
+            }
+            $subcat = '';
+            if (strlen($season) > 2) {
+                $season = $season . chr(10);
+            }
+            if ($val["program"]["subgender"]) {
+                $subcat = chr(10) . '	<category lang="fr">' . htmlspecialchars($val["program"]["subgender"], ENT_XML1) . '</category>';
+            }
+            $fp = fopen($xml_save, "a");
+            fputs($fp, '<programme start="' . date('YmdHis O', $val["start"]) . '" stop="' . date('YmdHis O', $val["end"]) . '" channel="' . $channel . '">
 	<title lang="fr">' . htmlspecialchars($val["program"]["title"], ENT_XML1) . '</title>' . $subtitle . '
 	<desc lang="fr">' . htmlspecialchars($season . $val["program"]["summary_long"], ENT_XML1) . '</desc>
 	<category lang="fr">' . htmlspecialchars($val["program"]["gender"], ENT_XML1) . '</category>' . $subcat . '
@@ -104,7 +114,7 @@ class PlayTV implements Provider
     </rating>' . $ns . '
 </programme>
 ');
-                fclose($fp);
+            fclose($fp);
         }
         return true;
     }

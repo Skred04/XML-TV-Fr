@@ -8,6 +8,7 @@ class Voo implements Provider
     private static $TMP_PATH = "epg/voo/";
     private static $CHANNELS_LIST;
     private static $CHANNELS_KEY;
+    private static $seen_ids = [];
 
     public function __construct($XML_PATH)
     {
@@ -26,9 +27,9 @@ class Voo implements Provider
     {
         if(!in_array($channel,self::$CHANNELS_KEY))
             return false;
-        $date_start = date('Y-m-d', strtotime("now")).'T00:00:00Z';
-        $date_end = date('Y-m-d', strtotime("now") + 86400).'T02:00:00Z';
-        $end = strtotime("now");
+        $date_start = date('Y-m-d', strtotime($date)).'T00:00:00Z';
+        $date_end = date('Y-m-d', strtotime($date) + 86400).'T02:00:00Z';
+        $end = strtotime($date);
         $ch3 = curl_init();
         curl_setopt($ch3, CURLOPT_URL, 'https://publisher.voomotion.be/traxis/web/Channel/' . self::$CHANNELS_LIST[$channel] . '/Events/Filter/AvailabilityEnd%3C=' . $date_end . '%26%26AvailabilityStart%3E=' .$date_start.'/Sort/AvailabilityStart/Props/IsAvailable,Products,AvailabilityEnd,AvailabilityStart,ChannelId,AspectRatio,DurationInSeconds,Titles,Channels?output=json&Language=fr&Method=PUT');
         curl_setopt($ch3, CURLOPT_RETURNTRANSFER, 1);
@@ -51,17 +52,16 @@ class Voo implements Provider
             unlink( $xml_save);
 
         foreach ($json["Events"]["Event"] as $event) {
-            $start = strtotime($event["AvailabilityStart"]);
-            if ($start > $end + 1) {
-                $fp = fopen($xml_save, "a");
-                fputs($fp, '<programme start="' . date('YmdHis O', ($end)) . '" stop="' . date('YmdHis O', $start) . '" channel="' . $channel . '">
-	<title lang="fr">Pas de programme</title>
-	<desc lang="fr">Pas de programme</desc>
-	<category lang="fr">Inconnu</category>
-</programme>
-');
-                fclose($fp);
+            // avoid duplicates
+            if ($event['id']) {
+                if (in_array($event['id'], self::$seen_ids)) {
+                    continue;
+                } else {
+                    array_push(self::$seen_ids, $event['id']);
+                }
             }
+
+            $start = strtotime($event["AvailabilityStart"]);
             $end = strtotime($event["AvailabilityEnd"]);
             $fp = fopen($xml_save, "a");
             @fputs($fp, '<programme start="' . date('YmdHis O', ($start)) . '" stop="' . date('YmdHis O', $end) . '" channel="' . $channel . '">

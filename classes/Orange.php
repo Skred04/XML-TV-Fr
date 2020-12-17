@@ -11,6 +11,7 @@ class Orange implements Provider
     private static $TMP_PATH = "epg/";
     private static $CHANNELS_LIST;
     private static $CHANNELS_KEY;
+    private static $seen_ids = [];
 
     public static function getPriority()
     {
@@ -60,6 +61,15 @@ class Orange implements Provider
         $fp = fopen($xml_save,"a");
         foreach($json as $val)
         {
+            // avoid duplicates
+            if ($val['id']) {
+                if (in_array($val['id'], self::$seen_ids)) {
+                    continue;
+                } else {
+                    array_push(self::$seen_ids, $val['id']);
+                }
+            }
+
             if($val["csa"] == "1") { $csa = 'TP'; } if($val["csa"] == "2") { $csa = '-10'; } if($val["csa"] == "3") { $csa = '-12'; } if($val["csa"] == "4") { $csa = '-16'; } if($val["csa"] == "5") { $csa = '-18'; }
 
             if(!isset($val["season"]))
