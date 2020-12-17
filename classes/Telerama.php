@@ -14,6 +14,7 @@ class Telerama implements Provider
     private static $HOST = 'http://api.telerama.fr';
     private static $NB_PAGE = '800000';
     private static $PAGE = 1;
+    private static $seen_ids = [];
 
     public static function getPriority()
     {
@@ -75,6 +76,15 @@ class Telerama implements Provider
         }
         if (isset($json['donnees'])) {
             foreach ($json['donnees'] as $donnee) {
+                // avoid duplicates
+                if ($donnee['id_programme']) {
+                    if (in_array($donnee['id_programme'], self::$seen_ids)) {
+                        continue;
+                    } else {
+                        array_push(self::$seen_ids, $donnee['id_programme']);
+                    }
+                }
+
                 $balises_sup = '';
                 $descri = $donnee['resume'];
                 if (isset($donnee["serie"])) {
