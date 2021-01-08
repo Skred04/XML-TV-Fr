@@ -147,7 +147,7 @@ foreach($channels as $key => $channel)
     if(!isset($name))
         $name = $key;
     fwrite($out,'<channel id="'.$key.'">
-    <display-name>'.$name.'</display-name>
+    <display-name>'.htmlspecialchars($name).'</display-name>
     <icon src="'.$icon.'" />
   </channel>'.chr(10));
 }
