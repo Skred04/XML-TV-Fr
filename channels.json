@@ -142,6 +142,8 @@
   "HistoriaCA": {"name": "Historia", "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Historia_Logo_2015.png/585px-Historia_Logo_2015.png"},
   "I24news.fr": {"name": "I24news", "icon": "https://television.telerama.fr/sites/tr_master/files/sheet_media/tv/500x500/781.png"},
   "ICIARTV": {"name": "ICI ARTV", "icon": "https://upload.wikimedia.org/wikipedia/fr/thumb/7/76/ICI_ARTV_logo.svg/512px-ICI_ARTV_logo.png"},
+  "ICICBFT.ca": {"name": "ICI Montréal", "icon": "https://upload.wikimedia.org/wikipedia/fr/thumb/0/04/ICI_T%C3%A9l%C3%A9_logo.svg/512px-ICI_T%C3%A9l%C3%A9_logo.png"},
+  "ICICKSH.ca": {"name": "ICI Sherbrooke", "icon": "https://upload.wikimedia.org/wikipedia/fr/thumb/0/04/ICI_T%C3%A9l%C3%A9_logo.svg/512px-ICI_T%C3%A9l%C3%A9_logo.png"},
   "ICIExplora": {"name": "ICI Explora", "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/ICI_Explora_logo.svg/500px-ICI_Explora_logo.png"},
   "IDF1": {"name": "IDF1", "icon": "https://television.telerama.fr/sites/tr_master/files/sheet_media/tv/500x500/701.png"},
   "InfosportPlus.fr": {"name": "Infosport+", "icon": "https://television.telerama.fr/sites/tr_master/files/sheet_media/tv/500x500/94.png"},
