@@ -139,14 +139,14 @@ fwrite($out,'<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tv SYSTEM "xmltv.dtd">
 
 <tv source-info-url="http://allfrtv.com/" source-info-name="XML TV Fr" generator-info-name="XML TV Fr" generator-info-url="http://allfrtv.com/">
-  ');
+');
 foreach($channels as $key => $channel)
 {
     @$icon = $channel['icon'];
     @$name = $channel['name'];
     if(!isset($name))
         $name = $key;
-    fwrite($out,'<channel id="'.$key.'">
+    fwrite($out,'  <channel id="'.$key.'">
     <display-name>'.htmlspecialchars($name).'</display-name>
     <icon src="'.$icon.'" />
   </channel>'.chr(10));
