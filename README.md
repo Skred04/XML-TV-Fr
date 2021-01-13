@@ -33,6 +33,8 @@ Le champ priority donne un ordre de priorité différent de celui par défaut en
 
 https://www.programme-television.org/grid/tranches/192_20210113_t5.json
 
+https://webnext.fr/programme-tv-rss-1021.html
+
 ## Configuration du programme [config.json](config.json)
 
 Le fichier config.json est au format JSON. Le champ days correspond au nombre de jours suivant la date du jour que l'on souhaite obtenir.
