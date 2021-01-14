@@ -37,6 +37,8 @@ https://webnext.fr/programme-tv-rss-1021.html
 
 https://rp-live.orange.fr/live-webapp/v3/applications/STB4PC/programs?epgIds=192,4&mco=OFR&includeEmptyChannels=false&period=1610654400000,1610668800000
 
+https://rp-live.orange.fr/live-webapp/v3/applications/STB4PC/programs?period=evening&epgIds=192&mco=OFR
+
 ## Configuration du programme [config.json](config.json)
 
 Le fichier config.json est au format JSON. Le champ days correspond au nombre de jours suivant la date du jour que l'on souhaite obtenir.
